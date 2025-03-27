@@ -2,11 +2,11 @@ package xiaozhi.modules.sys.service;
 
 import xiaozhi.common.page.PageData;
 import xiaozhi.common.service.BaseService;
+import xiaozhi.modules.sys.dto.AdminPageUserDTO;
+import xiaozhi.modules.sys.dto.PasswordDTO;
 import xiaozhi.modules.sys.dto.SysUserDTO;
 import xiaozhi.modules.sys.entity.SysUserEntity;
-
-import java.util.List;
-import java.util.Map;
+import xiaozhi.modules.sys.vo.AdminPageUserVO;
 
 
 /**
@@ -14,54 +14,38 @@ import java.util.Map;
  */
 public interface SysUserService extends BaseService<SysUserEntity> {
 
-    PageData<SysUserDTO> page(Map<String, Object> params);
-
-    List<SysUserDTO> list(Map<String, Object> params);
-
-    SysUserDTO get(Long id);
-
     SysUserDTO getByUsername(String username);
 
+    SysUserDTO getByUserId(Long userId);
+
     void save(SysUserDTO dto);
-
-    void update(SysUserDTO dto);
-
-    void updateUserInfo(SysUserDTO dto);
 
     void delete(Long[] ids);
 
     /**
-     * 修改密码
-     *
-     * @param id          用户ID
-     * @param newPassword 新密码
+     * 验证是否允许修改密码更改
+     * @param userId 用户id
+     * @param passwordDTO 验证密码的参数
      */
-    void updatePassword(Long id, String newPassword);
+    void changePassword(Long userId, PasswordDTO passwordDTO);
 
     /**
-     * 根据部门ID，查询用户数
+     * 直接修改密码，不需要验证
+     * @param userId 用户id
+     * @param password 密码
      */
-    int getCountByDeptId(Long deptId);
+    void changePasswordDirectly(Long userId, String password);
 
     /**
-     * 根据部门ID,查询用户Id列表
+     * 重置密码
+     * @param userId 用户id
+     * @return 随机生成符合规范的密码
      */
-    List<Long> getUserIdListByDeptId(List<Long> deptIdList);
-
+    String resetPassword(Long userId);
     /**
-     * 删除用户缓存
-     *
-     * @param userId
+     * 管理员分页用户信息
+     * @param dto 分页查找参数
+     * @return 用户列表分页数据
      */
-    void deleteUserCache(Long userId);
-
-    /**
-     * 验证密码强度
-     *
-     * @param newPassword
-     * @return
-     */
-    boolean isStrongPassword(String newPassword);
-
-    String getName(Long creator);
+    PageData<AdminPageUserVO> page(AdminPageUserDTO dto);
 }
