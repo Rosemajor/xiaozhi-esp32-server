@@ -1,0 +1,1 @@
+请将model.pt放到model文件夹的SenseVoiceSmall目录下
