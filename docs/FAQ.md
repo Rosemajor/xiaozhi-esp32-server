@@ -21,7 +21,17 @@ conda install conda-forge::ffmpeg
 建议：如果 `EdgeTTS` 经常失败，请先检查是否使用了代理（梯子）。如果使用了，请尝试关闭代理后再试；  
 如果用的是火山引擎的豆包 TTS，经常失败时建议使用付费版本，因为测试版本仅支持 2 个并发。
 
-### 4、如何提高小智对话响应速度？ ⚡
+### 4、使用Wifi能连接自建服务器，但是4G模式却接不上 🔐
+
+原因：虾哥的固件，4G模式需要使用安全连接。
+
+解决方法：目前有两种方法可以解决。任选一种：
+
+1、改代码。参考这个视频解决 https://www.bilibili.com/video/BV18MfTYoE85
+
+2、使用nginx配置ssl证书。参考教程 https://icnt94i5ctj4.feishu.cn/docx/GnYOdMNJOoRCljx1ctecsj9cnRe
+
+### 5、如何提高小智对话响应速度？ ⚡
 
 本项目默认配置为低成本方案，建议初学者先使用默认免费模型，解决"跑得动"的问题，再优化"跑得快"。  
 如需提升响应速度，可尝试更换各组件。以下为各组件的响应速度测试数据（仅供参考，不构成承诺）：
@@ -78,7 +88,7 @@ TTS 性能排行:
 - LLM：`AliLLM`
 - TTS：`DoubaoTTS`
 
-### 5、我说话很慢，停顿时小智老是抢话 🗣️
+### 6、我说话很慢，停顿时小智老是抢话 🗣️
 
 建议：在配置文件中找到如下部分，将 `min_silence_duration_ms` 的值调大（例如改为 `1000`）：
 
@@ -90,45 +100,11 @@ VAD:
     min_silence_duration_ms: 700  # 如果说话停顿较长，可将此值调大
 ```
 
-### 6、我想通过小智控制电灯、空调、远程开关机等操作 💡
+### 7、我想通过小智控制电灯、空调、远程开关机等操作 💡
 
-本项目，支持以工具调用的方式控制HomeAssistant设备
+参考教程[ESP32设备与HomeAssistant集成指南](./homeassistant-integration.md)
 
-1、首先选择一款支持function call支持的LLM，例如`ChatGLMLLM`。
-
-2、在配置文件中，将 `selected_module.Intent` 设置为 `function_call`。
-
-3、登录`HomeAssistant`，点击`左下角个人`，切换`安全`导航栏，划到底部`长期访问令牌`生成api_key。
-
-在配置文件中，配置好你的home assistant的`devices`（被控制的设备）和`api_key`和`base_url`等信息。例如：
-
-``` yaml 
-plugins
-  home_assistant:
-    devices:
-      - 客厅,玩具灯,switch.cuco_cn_460494544_cp1_on_p_2_1
-      - 卧室,台灯,switch.iot_cn_831898993_socn1_on_p_2_1
-    base_url: http://你的homeassistant地址:8123
-    api_key: 你的home assistant api访问令牌
-```
-
-最后，允许function_call 插件在配置文件中启用`hass_get_state`(必须)、`hass_set_state`(必须)、`hass_play_music`(不想用ha听音乐可以不启动)，例如：
-
-``` yaml 
-Intent:
-  ...
-  function_call:
-    type: nointent
-    functions:
-      - change_role
-      - get_weather
-      - get_news
-      - hass_get_state
-      - hass_set_state
-      - hass_play_music
-```
-
-### 7、更多问题，可联系我们反馈 💬
+### 8、更多问题，可联系我们反馈 💬
 
 我们的联系方式放在[百度网盘中,点击前往](https://pan.baidu.com/s/1x6USjvP1nTRsZ45XlJu65Q)，提取码是`223y`。
 

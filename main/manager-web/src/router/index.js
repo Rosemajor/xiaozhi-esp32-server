@@ -56,23 +56,38 @@ const routes = [
     }
   },
   {
-   path: '/model-config',
-   name: 'ModelConfig',
-   component: function () {
-     return import('../views/ModelConfig.vue')
-   }
-  },
-  {
-    path: '/test',
-    name: 'TestServer',
+    path: '/model-config',
+    name: 'ModelConfig',
     component: function () {
-      return import('../views/test.vue')
+      return import('../views/ModelConfig.vue')
     }
   },
-
+  {
+    path: '/params-management',
+    name: 'ParamsManagement',
+    component: function () {
+      return import('../views/ParamsManagement.vue')
+    },
+    meta: {
+      requiresAuth: true,
+      title: '参数管理'
+    }
+  },
+  {
+    path: '/ota-management',
+    name: 'OtaManagement',
+    component: function () {
+      return import('../views/OtaManagement.vue')
+    },
+    meta: {
+      requiresAuth: true,
+      title: 'OTA管理'
+    }
+  },
 ]
 
 const router = new VueRouter({
+  base: process.env.VUE_APP_PUBLIC_PATH || '/',
   routes
 })
 
